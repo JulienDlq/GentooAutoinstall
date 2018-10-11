@@ -1,0 +1,26 @@
+
+yell() { echo "$0: $*" >&2; }
+die() { yell "$*"; exit 1; }
+try() { "$@" || die "Impossible de lancer $*"; }
+
+task_check() {
+	local TMP=$2/$1
+	if [[ -e $TMP ]]
+	then
+		false
+	else
+		true
+	fi
+}
+
+task_skip() {
+	local TMP=$1
+	echo "Tâche déjà effectuée (${TMP})"
+}
+
+task_done() {
+	local TMP=$2/$1
+	touch $TMP
+	echo "Tâche effectuée"
+}
+

@@ -1,0 +1,39 @@
+# INITIALISATION DES SCRIPTS
+SCRIPTPATH="gentoo"
+
+# SPÉCIFICATIONS DE LA MACHINE
+# Type de Machine
+UEFI=0
+VIRTUALBOX=0
+LIBVIRT=1
+# Nom de la machine
+HOSTNAME="gentoo"
+# Pilotes
+INPUT_DEVICES="evdev"
+VIDEO_CARDS="virgl"
+# Périphériques
+DISK="vda"
+ETHERNET="eth0"
+
+# ENVIRONMENT SPECIFICATIONS
+# Users
+USER="user"
+# Locale
+LANG="fr"
+LOCALE="fr_FR.utf8"
+# Keyboard
+KEYMAP="fr-bepo"
+LAYOUT="fr"
+MODEL="pc105"
+VARIANT="bepo"
+OPTIONS=""
+
+# NETWORK SPECIFICATIONS
+# Ping tester
+PING="8.8.8.8"
+
+# CHROOT SPECIFICATIONS
+# Mount point of gentoo chroot
+ROOTPATH="/mnt/gentoo"
+# Folder for successful steps files
+STEPPATH="tmp/gentoo-steps"
