@@ -37,3 +37,4 @@ PING="8.8.8.8"
 ROOTPATH="/mnt/gentoo"
 # Folder for successful steps files
 STEPPATH="tmp/gentoo-steps"
+
