@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-. ./init
-. ./conf
+# Premier script à lancer
+
+. ./Core/init
+. ./Core/conf
 
 # Création du dossier de validation d'étapes
 try mkdir -p ${SCRIPTPATH}/${STEPPATH}
@@ -22,7 +24,7 @@ if $( task_check ${LIVECD_NETWORK}_LIVECD_NETWORK $STEPPATH )
 then
 	#try dhcpcd $ETHERNET
 	try ping -c4 $PING
-	try service sshd restart
+	try /etc/init.d/sshd restart
 	task_done ${LIVECD_NETWORK}_LIVECD_NETWORK $STEPPATH
 else
 	task_skip ${LIVECD_NETWORK}_LIVECD_NETWORK
@@ -39,52 +41,52 @@ else
 fi
 
 echo
-echo "Partitionnement du disque dur…"
+echo "Partitionnement du disque dur et initialisation du système de fichier…"
 if $( task_check ${SYSTEM_PARTITION}_SYSTEM_PARTITION $STEPPATH )
 then
-	try parted -a optimal /dev/$DISK << EOF
-mklabel gpt
-unit mib
-mkpart primary 1 3
-name 1 grub
-set 1 bios_grub on
-mkpart primary 3 131
-name 2 boot
-mkpart primary 131 643
-name 3 swap
-mkpart primary 643 -1
-name 4 rootfs
-set 2 boot on
-print
-quit
-EOF
+	try parted -s -a optimal /dev/${DISK} mklabel gpt
+	try parted -s -a optimal /dev/${DISK} unit mib
+	try parted -s -a optimal /dev/${DISK} mkpart primary 1 3
+	try parted -s -a optimal /dev/${DISK} name 1 grub
+	try parted -s -a optimal /dev/${DISK} set 1 bios_grub on
+	try parted -s -a optimal /dev/${DISK} mkpart primary ext2 3 131
+	try parted -s -a optimal /dev/${DISK} name 2 boot
+	try parted -s -a optimal /dev/${DISK} mkpart primary ext4 '131 -1'
+	try parted -s -a optimal /dev/${DISK} name 3 rootfs
+	try parted -s -a optimal /dev/${DISK} set 2 boot on
+	try parted -s -a optimal /dev/${DISK} print
+	try mkfs.ext2 -F /dev/${DISK}2
+	try mkfs.ext4 -F /dev/${DISK}3
 	task_done ${SYSTEM_PARTITION}_SYSTEM_PARTITION $STEPPATH
 else
 	task_skip ${SYSTEM_PARTITION}_SYSTEM_PARTITION
 fi
 
 echo
-echo "Initialisation du système de fichier…"
-if $( task_check ${SYSTEM_FORMAT}_SYSTEM_FORMAT $STEPPATH )
-then
-	try mkfs.ext2 /dev/${DISK}2
-	try mkfs.ext4 /dev/${DISK}4
-	try mkswap /dev/${DISK}3
-	try swapon /dev/${DISK}3
-	task_done ${SYSTEM_FORMAT}_SYSTEM_FORMAT $STEPPATH
-else
-	task_skip ${SYSTEM_FORMAT}_SYSTEM_FORMAT
-fi
-
-echo
 echo "Montage de la partition racine…"
 if $( task_check ${SYSTEM_MOUNT}_SYSTEM_MOUNT $STEPPATH )
 then
-	try mount /dev/${DISK}4 $ROOTPATH
+	try mount /dev/${DISK}3 $ROOTPATH
 	task_done ${SYSTEM_MOUNT}_SYSTEM_MOUNT $STEPPATH
 else
 	task_skip ${SYSTEM_MOUNT}_SYSTEM_MOUNT
 fi
+
+echo
+echo "Initialisation du swap…"
+if $( task_check ${SYSTEM_SWAP}_SYSTEM_SWAP $STEPPATH )
+then
+	try fallocate -l 512M $ROOTPATH/swapfile
+	try chmod 600 $ROOTPATH/swapfile
+	try mkswap $ROOTPATH/swapfile
+	try swapon $ROOTPATH/swapfile
+	task_done ${SYSTEM_SWAP}_SYSTEM_SWAP $STEPPATH
+else
+	task_skip ${SYSTEM_SWAP}_SYSTEM_SWAP
+fi
+
+# TEST
+exit 0
 
 echo
 echo "Installation du stage3…"
@@ -95,9 +97,9 @@ then
 	#MIRROR=distfiles.gentoo.org
 	MIRROR="gentoo.mirrors.ovh.net/gentoo-distfiles"
 	IMAGE="stage3-amd64-\w*.tar.bz2"
-	FILE=$(wget -q http://distfiles.gentoo.org/releases/amd64/autobuilds/current-install-amd64-minimal/ -O - | grep -o -e "${IMAGE}" | uniq)
-	wget -c http://${MIRROR}/releases/amd64/autobuilds/current-install-amd64-minimal/$FILE
-	wget -c http://${MIRROR}/releases/amd64/autobuilds/current-install-amd64-minimal/${FILE}.DIGESTS
+	FILE=$(wget -4 -q http://distfiles.gentoo.org/releases/amd64/autobuilds/current-install-amd64-minimal/ -O - | grep -o -e "${IMAGE}" | uniq)
+	wget -4 -c http://${MIRROR}/releases/amd64/autobuilds/current-install-amd64-minimal/$FILE
+	wget -4 -c http://${MIRROR}/releases/amd64/autobuilds/current-install-amd64-minimal/${FILE}.DIGESTS
 
 	echo "- Vérification de l'archive stage3…"
 	try grep "$( sha512sum $FILE )" ${FILE}.DIGESTS
