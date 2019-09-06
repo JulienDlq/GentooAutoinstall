@@ -1,5 +1,5 @@
 # INITIALISATION DES SCRIPTS
-SCRIPTPATH="gentoo"
+SCRIPTPATH="GentooAutoinstall"
 
 # SPÉCIFICATIONS DE LA MACHINE
 # Type de Machine
@@ -36,5 +36,5 @@ PING="8.8.8.8"
 # Mount point of gentoo chroot
 ROOTPATH="/mnt/gentoo"
 # Folder for successful steps files
-STEPPATH="tmp/gentoo-steps"
+STEPPATH="Steps"
 
