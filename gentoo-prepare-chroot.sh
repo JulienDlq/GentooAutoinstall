@@ -22,7 +22,6 @@ echo
 echo "Configuration du réseau…"
 if $( task_check ${LIVECD_NETWORK}_LIVECD_NETWORK $STEPPATH )
 then
-	#try dhcpcd $ETHERNET
 	try ping -c4 $PING
 	try /etc/init.d/sshd restart
 	task_done ${LIVECD_NETWORK}_LIVECD_NETWORK $STEPPATH
