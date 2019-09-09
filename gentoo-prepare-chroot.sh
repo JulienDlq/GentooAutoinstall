@@ -9,27 +9,6 @@
 try mkdir -p ${SCRIPTPATH}/${STEPPATH}
 
 echo
-echo "Configuration du mot de passe root du livecd…"
-if $( task_check ${LIVECD_PWD}_LIVECD_PWD $STEPPATH )
-then
-	try passwd
-	task_done ${LIVECD_PWD}_LIVECD_PWD $STEPPATH
-else
-	task_skip ${LIVECD_PWD}_LIVECD_PWD
-fi
-
-echo
-echo "Configuration du réseau…"
-if $( task_check ${LIVECD_NETWORK}_LIVECD_NETWORK $STEPPATH )
-then
-	try ping -c4 $PING
-	try /etc/init.d/sshd restart
-	task_done ${LIVECD_NETWORK}_LIVECD_NETWORK $STEPPATH
-else
-	task_skip ${LIVECD_NETWORK}_LIVECD_NETWORK
-fi
-
-echo
 echo "Mise à l'heure du système"
 if $( task_check ${LIVECD_DATETIME}_LIVECD_DATETIME $STEPPATH )
 then
