@@ -93,13 +93,14 @@ echo "Installation du stage3…"
 if $( task_check ${SYSTEM_STAGE3}_SYSTEM_STAGE3 $STEPPATH )
 then
 	cd $ROOTPATH
+
 	echo "- Téléchargement de l'archive stage3…"
-	#MIRROR=distfiles.gentoo.org
-	MIRROR="gentoo.mirrors.ovh.net/gentoo-distfiles"
+	MIRROR=distfiles.gentoo.org
+  FOLDER=releases/amd64/autobuilds/current-install-amd64-minimal
 	IMAGE="stage3-amd64-\w*.tar.bz2"
-	FILE=$(wget -4 -q http://distfiles.gentoo.org/releases/amd64/autobuilds/current-install-amd64-minimal/ -O - | grep -o -e "${IMAGE}" | uniq)
-	wget -4 -c http://${MIRROR}/releases/amd64/autobuilds/current-install-amd64-minimal/$FILE
-	wget -4 -c http://${MIRROR}/releases/amd64/autobuilds/current-install-amd64-minimal/${FILE}.DIGESTS
+	FILE=$(wget -4 -q http://${MIRROR}/${FOLDER}/ -O - | grep -o -e "${IMAGE}" | uniq)
+	wget -4 -c http://${MIRROR}/${FOLDER}/${FILE}
+	wget -4 -c http://${MIRROR}/${FOLDER}/${FILE}.DIGESTS
 
 	echo "- Vérification de l'archive stage3…"
 	try grep "$( sha512sum $FILE )" ${FILE}.DIGESTS
