@@ -12,7 +12,7 @@ echo
 echo "Mise à l'heure du système"
 if $( task_check ${LIVECD_DATETIME}_LIVECD_DATETIME $STEPPATH )
 then
-	try ntpd -q -g
+	try ntpd -4 -q -g
 	task_done ${LIVECD_DATETIME}_LIVECD_DATETIME $STEPPATH
 else
 	task_skip ${LIVECD_DATETIME}_LIVECD_DATETIME
