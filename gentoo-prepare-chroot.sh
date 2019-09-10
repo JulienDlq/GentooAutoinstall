@@ -63,9 +63,6 @@ else
 	task_skip ${SYSTEM_SWAP}_SYSTEM_SWAP
 fi
 
-# TEST
-exit 0
-
 echo
 echo "Installation du stage3…"
 if $( task_check ${SYSTEM_STAGE3}_SYSTEM_STAGE3 $STEPPATH )
