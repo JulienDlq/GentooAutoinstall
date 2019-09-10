@@ -111,9 +111,9 @@ then
 	echo 'PORTAGE_NICENESS=15' >> ${ROOTPATH}/etc/portage/make.conf
 
 	echo '' >> ${ROOTPATH}/etc/portage/make.conf
-	echo '# Nombre de CPU pour la compilation' >> ${ROOTPATH}/etc/portage/make.conf
-	NBCPU=$(( $( cat /proc/cpuinfo | grep processor | wc -l ) + 1 ))
-	echo 'MAKEOPTS="-j'${NBCPU}'"' >> ${ROOTPATH}/etc/portage/make.conf
+	echo '# Activer la compilation en parallèle' >> ${ROOTPATH}/etc/portage/make.conf
+	NBCPU=$( cat /proc/cpuinfo | grep processor | wc -l )
+	echo 'MAKEOPTS="-j'${NBCPU}'-l'${NBCPU}'"' >> ${ROOTPATH}/etc/portage/make.conf
 
 	echo '' >> ${ROOTPATH}/etc/portage/make.conf
 	echo '# Activer CCACHE' >> ${ROOTPATH}/etc/portage/make.conf
