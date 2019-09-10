@@ -118,7 +118,7 @@ then
 	echo '' >> ${ROOTPATH}/etc/portage/make.conf
 	echo '# Activer CCACHE' >> ${ROOTPATH}/etc/portage/make.conf
 	echo 'FEATURES="ccache"' >> ${ROOTPATH}/etc/portage/make.conf
-	echo 'CCACHE_SIZE="15G"' >> ${ROOTPATH}/etc/portage/make.conf
+	echo 'CCACHE_SIZE="'$CCACHE'"' >> ${ROOTPATH}/etc/portage/make.conf
 
 	echo '' >> ${ROOTPATH}/etc/portage/make.conf
 	echo '# Langue des applications' >> ${ROOTPATH}/etc/portage/make.conf

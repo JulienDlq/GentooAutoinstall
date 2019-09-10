@@ -18,6 +18,8 @@ ETHERNET="eth0"
 # ENVIRONMENT SPECIFICATIONS
 # Taille du fichier de swap
 SWAP="512M"
+# Taille du ccache
+CCACHE="15G"
 # Users
 USER="user"
 # Locale
