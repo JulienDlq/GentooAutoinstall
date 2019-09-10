@@ -16,6 +16,8 @@ DISK="vda"
 ETHERNET="eth0"
 
 # ENVIRONMENT SPECIFICATIONS
+# Taille du fichier de swap
+SWAP="512M"
 # Users
 USER="user"
 # Locale

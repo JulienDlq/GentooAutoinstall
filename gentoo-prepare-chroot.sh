@@ -54,10 +54,10 @@ echo
 echo "Initialisation du swap…"
 if $( task_check ${SYSTEM_SWAP}_SYSTEM_SWAP $STEPPATH )
 then
-	try fallocate -l 512M $ROOTPATH/swapfile
-	try chmod 600 $ROOTPATH/swapfile
-	try mkswap $ROOTPATH/swapfile
-	try swapon $ROOTPATH/swapfile
+	try fallocate -l ${SWAP} ${ROOTPATH}/swapfile
+	try chmod 600 ${ROOTPATH}/swapfile
+	try mkswap ${ROOTPATH}/swapfile
+	try swapon ${ROOTPATH}/swapfile
 	task_done ${SYSTEM_SWAP}_SYSTEM_SWAP $STEPPATH
 else
 	task_skip ${SYSTEM_SWAP}_SYSTEM_SWAP
