@@ -247,6 +247,9 @@ else
 	task_skip ${SYSTEM_MOUNTFORCHROOT}_SYSTEM_MOUNTFORCHROOT
 fi
 
+# TEST
+exit 0
+
 #echo
 #echo "Copie des scripts pour la suite…"
 #if $( task_check ${SYSTEM_COPYSCRIPTS}_SYSTEM_COPYSCRIPTS $STEPPATH )
