@@ -94,17 +94,25 @@ echo
 echo "Customisation du make.conf…"
 if $( task_check ${SYSTEM_MAKECONF}_SYSTEM_MAKECONF $STEPPATH )
 then
+  # CFLAGS
+
 	try sed -i.bck 's/\(CFLAGS="\)/\1-march=native /' ${ROOTPATH}/etc/portage/make.conf
 	try rm ${ROOTPATH}/etc/portage/make.conf.bck
 
+  # USE flags
+
 	try sed -i.bck 's/\(USE\)=".*"/\1="smp branding symlink systemd nls unicode unicode3 \\\n     logrotate \\\n     zsh-completion \\\n     vim-syntax \\\n     nls nfs samba \\\n     X xft dri opengl xinerama \\\n     gtk gtk3 libnotify \\\n     cairo pango \\\n     imagemagick gif jpeg png tiff \\\n     truetype \\\n     pulseaudio alsa \\\n     mp3 \\\n     archive \\\n     nsplugin \\\n     subversion git \\\n     ssh \\\n     geoip \\\n     kerberos \\\n     -consolekit \\\n     -gnome -eds -kde -qt4 -qt5 \\\n     -nautilus -gnome-online-accounts"/' ${ROOTPATH}/etc/portage/make.conf
 	try rm ${ROOTPATH}/etc/portage/make.conf.bck
+
+  # Drivers
 
 	echo '' >> ${ROOTPATH}/etc/portage/make.conf
 	echo '# Clavier/Souris' >> ${ROOTPATH}/etc/portage/make.conf
 	echo 'INPUT_DEVICES="'${INPUT_DEVICES}'"' >> ${ROOTPATH}/etc/portage/make.conf
 	echo '# Carte Vidéo' >> ${ROOTPATH}/etc/portage/make.conf
 	echo 'VIDEO_CARDS="'${VIDEO_CARDS}'"' >> ${ROOTPATH}/etc/portage/make.conf
+
+  # Configuration de portage
 
 	echo '' >> ${ROOTPATH}/etc/portage/make.conf
 	echo '# Priorité de portage' >> ${ROOTPATH}/etc/portage/make.conf
@@ -115,20 +123,28 @@ then
 	NBCPU=$( cat /proc/cpuinfo | grep processor | wc -l )
 	echo 'MAKEOPTS="-j'${NBCPU}'-l'${NBCPU}'"' >> ${ROOTPATH}/etc/portage/make.conf
 
+  # Configuration de ccache
+
 	echo '' >> ${ROOTPATH}/etc/portage/make.conf
 	echo '# Activer CCACHE' >> ${ROOTPATH}/etc/portage/make.conf
 	echo 'FEATURES="ccache"' >> ${ROOTPATH}/etc/portage/make.conf
 	echo 'CCACHE_SIZE="'$CCACHE'"' >> ${ROOTPATH}/etc/portage/make.conf
+
+  # Configuration de la langue
 
 	echo '' >> ${ROOTPATH}/etc/portage/make.conf
 	echo '# Langue des applications' >> ${ROOTPATH}/etc/portage/make.conf
 	echo 'LINGUAS="'${LANG}'"' >> ${ROOTPATH}/etc/portage/make.conf
 	echo 'L10N="'${LANG}'"' >> ${ROOTPATH}/etc/portage/make.conf
 
+  # Configuration du miroir de téléchargement et du dépôt
+
 	try mirrorselect -i -o >> ${ROOTPATH}/etc/portage/make.conf
 
 	try mkdir -p ${ROOTPATH}/etc/portage/repos.conf
 	try cp ${ROOTPATH}/usr/share/portage/config/repos.conf ${ROOTPATH}/etc/portage/repos.conf/gentoo.conf
+
+  # Package USE
 
 	try mkdir -p ${ROOTPATH}/etc/portage/package.use/
 
@@ -169,10 +185,13 @@ then
 
 	echo 'app-text/xmlto text' >> ${ROOTPATH}/etc/portage/package.use/xmlto
 
+  # Package Keywords
+
 	try mkdir -p ${ROOTPATH}/etc/portage/package.keywords/
 
 	echo 'x11-base/xorg-server ~amd64' >> ${ROOTPATH}/etc/portage/package.keywords/xorg-x11
 	echo 'x11-base/xorg-drivers ~amd64' >> ${ROOTPATH}/etc/portage/package.keywords/xorg-x11
+
 	if [[ $VIRTUALBOX -eq 1 ]]
 	then
 		echo '- Virtualbox detected'
@@ -192,6 +211,8 @@ then
 	echo 'dev-vcs/subversion ~amd64' >> ${ROOTPATH}/etc/portage/package.keywords/subversion
 
 	echo 'net-analyzer/wireshark ~amd64' >> ${ROOTPATH}/etc/portage/package.keywords/wireshark
+
+  # Package License
 
 	try mkdir -p ${ROOTPATH}/etc/portage/package.license/
 
