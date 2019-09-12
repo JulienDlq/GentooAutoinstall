@@ -151,8 +151,6 @@ then
 	echo 'sys-libs/ntdb python' >> ${ROOTPATH}/etc/portage/package.use/cifs-utils
 	echo 'sys-libs/tdb python' >> ${ROOTPATH}/etc/portage/package.use/cifs-utils
 
-	echo 'app-admin/conky imlib iostats lua lua-cairo lua-imlib' >> ${ROOTPATH}/etc/portage/package.use/cifs-utils
-
 	echo 'net-print/cups -java' >> ${ROOTPATH}/etc/portage/package.use/cups
 
 	echo 'app-editors/emacs -cairo' >> ${ROOTPATH}/etc/portage/package.use/emacs
@@ -160,11 +158,6 @@ then
 	echo 'media-libs/imlib2 X' >> ${ROOTPATH}/etc/portage/package.use/feh
 
 	echo 'dev-vcs/subversion -dso perl' >> ${ROOTPATH}/etc/portage/package.use/git
-
-	echo 'x11-libs/libxkbcommon X' >> ${ROOTPATH}/etc/portage/package.use/i3
-	echo 'x11-libs/pango X' >> ${ROOTPATH}/etc/portage/package.use/i3
-	echo 'x11-libs/libxcb xkb' >> ${ROOTPATH}/etc/portage/package.use/i3
-	echo 'x11-libs/cairo xcb' >> ${ROOTPATH}/etc/portage/package.use/i3
 
 	echo 'x11-misc/ktsuss sudo' >> ${ROOTPATH}/etc/portage/package.use/ktuss
 
@@ -191,11 +184,6 @@ then
 	echo 'app-editors/emacs ~amd64' >> ${ROOTPATH}/etc/portage/package.keywords/emacs
 
 	echo 'www-client/firefox ~amd64' >> ${ROOTPATH}/etc/portage/package.keywords/firefox
-
-	echo 'x11-wm/i3 ~amd64' >> ${ROOTPATH}/etc/portage/package.keywords/i3
-	echo 'x11-misc/i3status ~amd64' >> ${ROOTPATH}/etc/portage/package.keywords/i3
-	echo 'x11-misc/i3lock ~amd64' >> ${ROOTPATH}/etc/portage/package.keywords/i3
-	echo 'x11-libs/xcb-util-xrm ~amd64' >> ${ROOTPATH}/etc/portage/package.keywords/i3
 
 	echo 'media-sound/playerctl ~amd64' >> ${ROOTPATH}/etc/portage/package.keywords/playerctl
 
@@ -248,9 +236,6 @@ fi
 #	try cp ./gentoo-finalize-installation.sh ${ROOTPATH}/root/${SCRIPTPATH}/
 #	try cp ./gentoo-finalize-configuration.sh ${ROOTPATH}/root/${SCRIPTPATH}/
 #	try cp .toprc ${ROOTPATH}/root/${SCRIPTPATH}/
-#	try cp .i3.config ${ROOTPATH}/root/${SCRIPTPATH}/
-#	try cp .dunstrc.config ${ROOTPATH}/root/${SCRIPTPATH}/
-#	try cp .conkyrc.config ${ROOTPATH}/root/${SCRIPTPATH}/
 #
 #	try rm -rf ${ROOTPATH}/root/${SCRIPTPATH}/${STEPPATH}/
 #	try mkdir -p ${ROOTPATH}/root/${SCRIPTPATH}/${STEPPATH}/
